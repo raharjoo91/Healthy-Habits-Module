@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Habits for a Better Life</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background elements */
+        .bg-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: -1s;
+        }
+
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 60%;
+            left: 80%;
+            animation-delay: -3s;
+        }
+
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            top: 80%;
+            left: 20%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Header section */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: slideInDown 1s ease-out;
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            line-height: 1.2;
+            background: linear-gradient(45deg, #ffffff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: #e0e7ff;
+            font-weight: 400;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .intro-text {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: #f1f5f9;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        /* Interactive visual section */
+        .visual-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 40px 0;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Interactive elements */
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            animation: fadeInUp 1s ease-out 1s both;
+        }
+
+        .progress-step {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 0 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .progress-step.active {
+            background: #ffffff;
+            transform: scale(1.2);
+        }
+
+        .progress-step:hover {
+            background: #ffffff;
+            transform: scale(1.1);
+        }
+
+        /* Call to action button */
+        .cta-button {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+            animation: pulse 2s infinite;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            animation: fadeIn 1s ease-out 1.5s both;
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Animations */
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .visual-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+
+        /* Interactive hover effects */
+        .interactive-element {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-element::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .interactive-element:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">Healthy Habits for a Better Life</h1>
+            <p class="subtitle">School-Based Intervention Module</p>
+            <p class="intro-text">
+                Empowering adolescents with evidence-based strategies to reduce overweight and obesity through 
+                interactive learning, behavioral change techniques, and peer support systems.
+            </p>
+        </div>
+
+        <div class="visual-section">
+            <div class="feature-card interactive-element" onclick="animateCard(this)">
+                <span class="feature-icon">🥗</span>
+                <h3 class="feature-title">Healthy Eating</h3>
+                <p class="feature-desc">Learn about balanced nutrition, portion control, and making smart food choices</p>
+            </div>
+
+            <div class="feature-card interactive-element" onclick="animateCard(this)">
+                <span class="feature-icon">🏃‍♂️</span>
+                <h3 class="feature-title">Active Living</h3>
+                <p class="feature-desc">Discover fun ways to stay physically active and build exercise habits</p>
+            </div>
+
+            <div class="feature-card interactive-element" onclick="animateCard(this)">
+                <span class="feature-icon">🧠</span>
+                <h3 class="feature-title">Mental Wellness</h3>
+                <p class="feature-desc">Develop self-efficacy, manage stress, and build positive self-image</p>
+            </div>
+        </div>
+
+        <div class="progress-indicator">
+            <div class="progress-step active" onclick="setActiveStep(0)"></div>
+            <div class="progress-step" onclick="setActiveStep(1)"></div>
+            <div class="progress-step" onclick="setActiveStep(2)"></div>
+            <div class="progress-step" onclick="setActiveStep(3)"></div>
+            <div class="progress-step" onclick="setActiveStep(4)"></div>
+            <div class="progress-step" onclick="setActiveStep(5)"></div>
+            <div class="progress-step" onclick="setActiveStep(6)"></div>
+            <div class="progress-step" onclick="setActiveStep(7)"></div>
+        </div>
+
+        <button class="cta-button" onclick="startModule()">
+            Start Your Journey →
+        </button>
+
+        <div class="footer">
+            <p>Based on Social Cognitive Theory | Evidence-Based Approach</p>
+            <div class="contact-info">
+                <p><strong>For Support & Resources:</strong></p>
+                <p>📧 riswandywasir@upnvj.ac.id | 📞 +31 6-1459-2317</p>
+                <p>Developed by UPN Veteran Jakarta</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive functionality
+        function animateCard(card) {
+            card.style.transform = 'scale(1.05) rotateY(5deg)';
+            card.style.background = 'rgba(255, 255, 255, 0.3)';
+            
+            setTimeout(() => {
+                card.style.transform = 'scale(1) rotateY(0deg)';
+                card.style.background = 'rgba(255, 255, 255, 0.15)';
+            }, 200);
+        }
+
+        function setActiveStep(stepIndex) {
+            const steps = document.querySelectorAll('.progress-step');
+            steps.forEach((step, index) => {
+                step.classList.toggle('active', index === stepIndex);
+            });
+        }
+
+        function startModule() {
+            // Add loading animation
+            const button = document.querySelector('.cta-button');
+            button.style.background = 'linear-gradient(45deg, #059669, #047857)';
+            button.innerHTML = '🚀 Loading Module...';
+            
+            // Navigate to the first page
+            setTimeout(() => {
+                window.location.href = 'healthy_habits_page1.html';
+            }, 1000);
+        }
+
+        // Add dynamic background animation
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('shape');
+            particle.style.width = Math.random() * 50 + 20 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 6 + 's';
+            
+            document.querySelector('.bg-shapes').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 10000);
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 3000);
+
+        // Add scroll-triggered animations
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const shapes = document.querySelectorAll('.shape');
+            
+            shapes.forEach((shape, index) => {
+                const speed = 0.5 + (index * 0.1);
+                shape.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Self-efficacy building through interaction feedback
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Create positive feedback element
+                const feedback = document.createElement('div');
+                feedback.innerHTML = '✨ Great choice!';
+                feedback.style.cssText = `
+                    position: absolute;
+                    top: -30px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    color: #10b981;
+                    font-weight: bold;
+                    font-size: 0.9rem;
+                    opacity: 0;
+                    transition: all 0.5s ease;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.appendChild(feedback);
+                
+                setTimeout(() => {
+                    feedback.style.opacity = '1';
+                    feedback.style.top = '-40px';
+                }, 100);
+                
+                setTimeout(() => {
+                    feedback.remove();
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

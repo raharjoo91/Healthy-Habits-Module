@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Overweight & Obesity</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 50%, #81d4fa 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e40af;
+        }
+
+        .nav-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-step {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-step.active {
+            background: #3b82f6;
+            transform: scale(1.2);
+        }
+
+        .nav-step.completed {
+            background: #10b981;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px 50px;
+        }
+
+        /* Page header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .page-number {
+            display: inline-block;
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: #1e40af;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(30, 64, 175, 0.1);
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Content sections */
+        .content-section {
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            font-size: 2.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        /* Definition card */
+        .definition-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .definition-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #10b981, #f59e0b);
+        }
+
+        .definition-text {
+            font-size: 1.1rem;
+            color: #374151;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #fef3c7 0%, #fef3c7 100%);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        /* Statistics section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #dc2626;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .stat-description {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 10px;
+        }
+
+        /* Interactive causes section */
+        .causes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .cause-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .cause-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .cause-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .cause-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+
+        .cause-description {
+            color: #374151;
+            margin-bottom: 20px;
+        }
+
+        .cause-examples {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .cause-examples h4 {
+            color: #1e40af;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .cause-examples ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .cause-examples li {
+            padding: 5px 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .cause-examples li::before {
+            content: '•';
+            color: #3b82f6;
+            margin-right: 10px;
+        }
+
+        /* Interactive pie chart */
+        .lifestyle-chart {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 30px;
+        }
+
+        .pie-chart {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                #3b82f6 0deg 120deg,
+                #10b981 120deg 240deg,
+                #f59e0b 240deg 360deg
+            );
+            position: relative;
+            animation: rotate 2s ease-in-out;
+        }
+
+        .chart-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #1e40af;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .legend-item:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .legend-text {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        /* Steps section */
+        .steps-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .step-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .step-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.2);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .step-icon {
+            font-size: 2.5rem;
+            margin: 20px 0;
+        }
+
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+
+        .step-description {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        /* Interactive elements */
+        .interactive-tip {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #f59e0b;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-tip:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.2);
+        }
+
+        .tip-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .tip-text {
+            font-weight: 600;
+            color: #92400e;
+        }
+
+        /* Navigation buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-button {
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-button.disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 80px 15px 30px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .causes-container {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-legend {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <div class="nav-title">Healthy Habits Module</div>
+            <div class="nav-progress">
+                <div class="nav-step completed"></div>
+                <div class="nav-step active"></div>
+                <div class="nav-step"></div>
+                <div class="nav-step"></div>
+                <div class="nav-step"></div>
+                <div class="nav-step"></div>
+                <div class="nav-step"></div>
+                <div class="nav-step"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <span class="page-number">Page 1 of 8</span>
+            <h1 class="page-title">Understanding Overweight & Obesity</h1>
+            <p class="page-subtitle">Building awareness and motivation for positive change</p>
+        </div>
+
+        <!-- Definition Section -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">📚</span>
+                What is Overweight & Obesity?
+            </h2>
+
+            <div class="definition-card">
+                <p class="definition-text">
+                    <strong>Overweight and obesity</strong> are conditions where <span class="highlight">excess body fat</span> 
+                    has accumulated to the extent that it may have a negative effect on health and well-being.
+                </p>
+                <p class="definition-text">
+                    For adolescents, these conditions are determined by comparing your body mass index (BMI) to age and 
+                    gender-specific growth charts. Being overweight or obese increases the risk of developing various 
+                    health problems both now and in the future.
+                </p>
+                
+                <div class="interactive-tip" onclick="showTip(this)">
+                    <span class="tip-icon">💡</span>
+                    <span class="tip-text">Click to learn: BMI is just one measure - your health journey is unique!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">📊</span>
+                Global Prevalence Statistics
+            </h2>
+
+            <div class="stats-grid">
+                <div class="stat-card" onclick="animateCard(this)">
+                    <span class="stat-number">1 in 5</span>
+                    <div class="stat-label">Adolescents Worldwide</div>
+                    <p class="stat-description">Are affected by overweight or obesity</p>
+                </div>
+                
+                <div class="stat-card" onclick="animateCard(this)">
+                    <span class="stat-number">3x</span>
+                    <div class="stat-label">Increase Since 1975</div>
+                    <p class="stat-description">Childhood obesity rates have tripled</p>
+                </div>
+                
+                <div class="stat-card" onclick="animateCard(this)">
+                    <span class="stat-number">124M</span>
+                    <div class="stat-label">Children & Adolescents</div>
+                    <p class="stat-description">Aged 5-19 are obese globally</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Causes Section -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">🔍</span>
+                Causes and Contributing Factors
+            </h2>
+
+            <div class="causes-container">
+                <div class="cause-card" onclick="expandCard(this)">
+                    <span class="cause-icon">🍔</span>
+                    <h3 class="cause-title">Unhealthy Eating Patterns</h3>
+                    <p class="cause-description">
+                        Poor dietary choices and irregular eating habits contribute significantly to weight gain.
+                    </p>
+                    <div class="cause-examples">
+                        <h4>Common Examples:</h4>
+                        <ul>
+                            <li>Frequent consumption of fast food</li>
+                            <li>High intake of sugary drinks</li>
+                            <li>Large portion sizes</li>
+                            <li>Skipping meals leading to overeating</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="cause-card" onclick="expandCard(this)">
+                    <span class="cause-icon">📱</span>
+                    <h3 class="cause-title">Sedentary Lifestyle</h3>
+                    <p class="cause-description">
+                        Lack of physical activity and excessive screen time reduce calorie burning.
+                    </p>
+                    <div class="cause-examples">
+                        <h4>Common Examples:</h4>
+                        <ul>
+                            <li>Spending hours on devices</li>
+                            <li>Limited physical education</li>
+                            <li>Preference for indoor activities</li>
+                            <li>Lack of active transportation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="cause-card" onclick="expandCard(this)">
+                    <span class="cause-icon">🧬</span>
+                    <h3 class="cause-title">Environmental & Genetic Factors</h3>
+                    <p class="cause-description">
+                        Family history, environment, and social influences play important roles.
+                    </p>
+                    <div class="cause-examples">
+                        <h4>Common Examples:</h4>
+                        <ul>
+                            <li>Family eating patterns</li>
+                            <li>Genetic predisposition</li>
+                            <li>Social and cultural factors</li>
+                            <li>Economic constraints</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Consequences -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">⚠️</span>
+                Health Consequences
+            </h2>
+
+            <div class="interactive-tip" onclick="showHealthInfo(this)">
+                <span class="tip-icon">🏥</span>
+                <span class="tip-text">Click to understand: How excess weight affects your body and future health</span>
+            </div>
+
+            <div class="causes-container">
+                <div class="cause-card">
+                    <span class="cause-icon">❤️</span>
+                    <h3 class="cause-title">Cardiovascular Health</h3>
+                    <p class="cause-description">
+                        Increased risk of heart disease, high blood pressure, and stroke in adulthood.
+                    </p>
+                </div>
+
+                <div class="cause-card">
+                    <span class="cause-icon">🍯</span>
+                    <h3 class="cause-title">Diabetes Risk</h3>
+                    <p class="cause-description">
+                        Higher likelihood of developing type 2 diabetes and insulin resistance.
+                    </p>
+                </div>
+
+                <div class="cause-card">
+                    <span class="cause-icon">😟</span>
+                    <h3 class="cause-title">Psychological Impact</h3>
+                    <p class="cause-description">
+                        Potential effects on self-esteem, body image, and mental health.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Steps to Healthier Life -->
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">🚀</span>
+                Steps to a Healthier Life
+            </h2>
+
+            <div class="steps-section">
+                <div class="chart-title">Components of a Balanced Healthy Lifestyle</div>
+                
+                <div class="chart-container">
+                    <div class="pie-chart">
+                        <div class="chart-center">
+                            Balanced<br>Lifestyle
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-legend">
+                    <div class="legend-item" onclick="highlightSection('diet')">
+                        <div class="legend-color" style="background: #3b82f6;"></div>
+                        <span class="legend-text">Balanced Diet (33%)</span>
+                    </div>
+                    <div class="legend-item" onclick="highlightSection('exercise')">
+                        <div class="legend-color" style="background: #10b981;"></div>
+                        <span class="legend-text">Regular Exercise (33%)</span>
+                    </div>
+                    <div class="legend-item" onclick="highlightSection('behavior')">
+                        <div class="legend-color" style="background: #f59e0b;"></div>
+                        <span class="legend-text">Behavior Change (34%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card" onclick="animateStep(this)">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">🥗</div>
+                    <h3 class="step-title">Balanced Diet</h3>
+                    <p class="step-description">
+                        Focus on whole grains, fruits, vegetables, and lean proteins. Learn portion control and healthy eating patterns.
+                    </p>
+                </div>
+
+                <div class="step-card" onclick="animateStep(this)">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">🏃‍♂️</div>
+                    <h3 class="step-title">Regular Exercise</h3>
+                    <p class="step-description">
+                        Engage in at least 60 minutes of moderate physical activity daily. Find activities you enjoy!
+                    </p>
+                </div>
+
+                <div class="step-card" onclick="animateStep(this)">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">🧠</div>
+                    <h3 class="step-title">Behavior Change</h3>
+                    <p class="step-description">
+                        Start with small, sustainable changes. Set realistic goals and track your progress.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="goBack()">
+                ← Back to Cover
+            </button>
+            <button class="nav-button" onclick="goNext()">
+                Next: Healthy Eating →
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Interactive functionality
+        function animateCard(card) {
+            card.style.transform = 'scale(1.05) rotateY(10deg)';
+            setTimeout(() => {
+                card.style.transform = 'scale(1) rotateY(0deg)';
+            }, 300);
+        }
+
+        function expandCard(card) {
+            card.style.transform = 'scale(1.02)';
+            card.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.15)';
+            
+            // Add engagement feedback
+            const feedback = document.createElement('div');
+            feedback.innerHTML = '✨ Great! You\'re learning!';
+            feedback.style.cssText = `
+                position: absolute;
+                top: -35px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #10b981;
+                color: white;
+                padding: 8px 15px;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                opacity: 0;
+                transition: all 0.5s ease;
+                pointer-events: none;
+                z-index: 10;
+            `;
+            
+            card.style.position = 'relative';
+            card.appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.style.opacity = '1';
+                feedback.style.top = '-45px';
+            }, 100);
+            
+            setTimeout(() => {
+                feedback.remove();
+                card.style.transform = 'scale(1)';
+                card.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+            }, 3000);
+        }
+
+        function animateStep(step) {
+            step.style.transform = 'translateY(-10px) scale(1.02)';
+            step.style.borderColor = '#10b981';
+            
+            setTimeout(() => {
+                step.style.transform = 'translateY(0) scale(1)';
+                step.style.borderColor = 'transparent';
+            }, 500);
+        }
+
+        function showTip(tip) {
+            const originalText = tip.querySelector('.tip-text').textContent;
+            tip.querySelector('.tip-text').textContent = 'Remember: Your health journey is unique and every small step counts!';
+            tip.style.background = 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)';
+            tip.style.borderLeftColor = '#3b82f6';
+            
+            setTimeout(() => {
+                tip.querySelector('.tip-text').textContent = originalText;
+                tip.style.background = 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)';
+                tip.style.borderLeftColor = '#f59e0b';
+            }, 3000);
+        }
+
+        function showHealthInfo(tip) {
+            const originalText = tip.querySelector('.tip-text').textContent;
+            tip.querySelector('.tip-text').textContent = 'Good news: These risks can be reduced with healthy lifestyle changes you\'ll learn in this module!';
+            tip.style.background = 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)';
+            tip.style.borderLeftColor = '#10b981';
+            
+            setTimeout(() => {
+                tip.querySelector('.tip-text').textContent = originalText;
+                tip.style.background = 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)';
+                tip.style.borderLeftColor = '#f59e0b';
+            }, 4000);
+        }
+
+        function highlightSection(section) {
+            const chart = document.querySelector('.pie-chart');
+            const legends = document.querySelectorAll('.legend-item');
+            
+            // Reset all legends
+            legends.forEach(legend => {
+                legend.style.background = 'rgba(255, 255, 255, 0.5)';
+                legend.style.transform = 'translateY(0)';
+            });
+            
+            // Highlight selected section
+            event.target.closest('.legend-item').style.background = 'rgba(255, 255, 255, 0.9)';
+            event.target.closest('.legend-item').style.transform = 'translateY(-5px)';
+            
+            // Visual feedback
+            const feedback = document.createElement('div');
+            feedback.innerHTML = `🎯 ${section.charAt(0).toUpperCase() + section.slice(1)} is essential for lasting change!`;
+            feedback.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(59, 130, 246, 0.9);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 25px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                opacity: 0;
+                transition: all 0.5s ease;
+                z-index: 100;
+                pointer-events: none;
+            `;
+            
+            document.querySelector('.chart-container').appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                feedback.remove();
+            }, 3000);
+        }
+
+        function goBack() {
+            // Add loading animation
+            event.target.innerHTML = '⏳ Loading...';
+            event.target.style.background = '#9ca3af';
+            
+            // Navigate back to cover page
+            setTimeout(() => {
+                window.location.href = 'healthy_habits_cover.html';
+            }, 1000);
+        }
+
+        function goNext() {
+            // Update progress
+            updateProgress(2);
+            
+            // Add loading animation
+            event.target.innerHTML = '⏳ Loading...';
+            event.target.style.background = '#10b981';
+            
+            // Navigate to the next page
+            setTimeout(() => {
+                window.location.href = 'healthy_habits_page2.html';
+            }, 1000);
+        }
+
+        function updateProgress(pageNumber) {
+            const steps = document.querySelectorAll('.nav-step');
+            steps.forEach((step, index) => {
+                if (index < pageNumber - 1) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (index === pageNumber - 1) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+        }
+
+        // Self-efficacy building through interaction tracking
+        let interactionCount = 0;
+        const maxInteractions = 5;
+
+        function trackInteraction() {
+            interactionCount++;
+            
+            if (interactionCount === maxInteractions) {
+                showEncouragement();
+            }
+        }
+
+        function showEncouragement() {
+            const encouragement = document.createElement('div');
+            encouragement.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 15px;">🌟</div>
+                    <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 10px;">Amazing Engagement!</div>
+                    <div style="font-size: 0.9rem;">You're actively learning - this shows great commitment to your health journey!</div>
+                </div>
+            `;
+            encouragement.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: white;
+                padding: 30px;
+                border-radius: 20px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                opacity: 0;
+                transition: all 0.5s ease;
+                max-width: 400px;
+            `;
+            
+            document.body.appendChild(encouragement);
+            
+            setTimeout(() => {
+                encouragement.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                encouragement.style.opacity = '0';
+                setTimeout(() => {
+                    encouragement.remove();
+                }, 500);
+            }, 4000);
+        }
+
+        // Add interaction tracking to clickable elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const interactiveElements = document.querySelectorAll('.stat-card, .cause-card, .step-card, .legend-item, .interactive-tip');
+            
+            interactiveElements.forEach(element => {
+                element.addEventListener('click', trackInteraction);
+            });
+        });
+
+        // Scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.content-section');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+
+        // Initialize scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.content-section');
+            elements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(50px)';
+                element.style.transition = 'all 0.8s ease';
+                element.style.transitionDelay = `${index * 0.2}s`;
+            });
+            
+            // Trigger initial animation
+            setTimeout(animateOnScroll, 100);
+        });
+
+        // Progress tracking for Social Cognitive Theory
+        const learningProgress = {
+            definitionRead: false,
+            statisticsViewed: false,
+            causesExplored: false,
+            stepsUnderstood: false
+        };
+
+        function updateLearningProgress(section) {
+            learningProgress[section] = true;
+            
+            const progress = Object.values(learningProgress).filter(Boolean).length;
+            const total = Object.keys(learningProgress).length;
+            
+            if (progress === total) {
+                showCompletionBadge();
+            }
+        }
+
+        function showCompletionBadge() {
+            const badge = document.createElement('div');
+            badge.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">🏆</div>
+                    <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">Section Complete!</div>
+                    <div style="font-size: 0.9rem;">You've mastered the basics of understanding overweight & obesity!</div>
+                </div>
+            `;
+            badge.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: white;
+                padding: 25px;
+                border-radius: 20px;
+                box-shadow: 0 15px 35px rgba(245, 158, 11, 0.3);
+                z-index: 1000;
+                opacity: 0;
+                transform: translateY(100px);
+                transition: all 0.5s ease;
+                max-width: 300px;
+                cursor: pointer;
+            `;
+            
+            document.body.appendChild(badge);
+            
+            setTimeout(() => {
+                badge.style.opacity = '1';
+                badge.style.transform = 'translateY(0)';
+            }, 100);
+            
+            badge.addEventListener('click', () => {
+                badge.style.opacity = '0';
+                badge.style.transform = 'translateY(100px)';
+                setTimeout(() => {
+                    badge.remove();
+                }, 500);
+            });
+        }
+    </script>
+</body>
+</html>

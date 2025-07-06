@@ -1,0 +1,2436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staying on Track & Long-Term Maintenance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #fefce8 0%, #fef3c7 50%, #fde047 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-success {
+            position: absolute;
+            font-size: 1.8rem;
+            opacity: 0.06;
+            animation: float 18s ease-in-out infinite;
+        }
+
+        .floating-success:nth-child(1) { top: 8%; left: 12%; animation-delay: -1s; }
+        .floating-success:nth-child(2) { top: 25%; right: 8%; animation-delay: -6s; }
+        .floating-success:nth-child(3) { top: 48%; left: 10%; animation-delay: -11s; }
+        .floating-success:nth-child(4) { top: 72%; right: 18%; animation-delay: -16s; }
+        .floating-success:nth-child(5) { top: 35%; left: 55%; animation-delay: -4s; }
+        .floating-success:nth-child(6) { top: 65%; left: 30%; animation-delay: -9s; }
+        .floating-success:nth-child(7) { top: 15%; left: 75%; animation-delay: -14s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-80px) rotate(180deg); }
+        }
+
+        .nav-bar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #d97706;
+        }
+
+        .nav-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-step {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-step.active {
+            background: #f59e0b;
+            transform: scale(1.2);
+        }
+
+        .nav-step.completed {
+            background: #d97706;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 20px 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .page-number {
+            display: inline-block;
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            color: #d97706;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(217, 119, 6, 0.1);
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d97706;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            font-size: 2.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        .relapse-prevention {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .relapse-prevention::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #d97706, #b45309);
+        }
+
+        .risk-scenarios {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .scenario-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .scenario-card:hover {
+            border-color: #f59e0b;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(245, 158, 11, 0.2);
+        }
+
+        .scenario-card.planned {
+            border-color: #22c55e;
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        }
+
+        .scenario-icon {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .scenario-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #d97706;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .scenario-description {
+            color: #374151;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .scenario-strategies {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .scenario-strategies h4 {
+            color: #d97706;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .strategy-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.1);
+        }
+
+        .strategy-item:last-child {
+            border-bottom: none;
+        }
+
+        .strategy-emoji {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .strategy-text {
+            font-size: 0.85rem;
+            color: #374151;
+        }
+
+        .progress-tracking {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .habit-tracker {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin: 30px 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .day-header {
+            text-align: center;
+            font-weight: 700;
+            color: #d97706;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        .habit-cell {
+            aspect-ratio: 1;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            position: relative;
+        }
+
+        .habit-cell:hover {
+            border-color: #f59e0b;
+            transform: scale(1.05);
+        }
+
+        .habit-cell.completed {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border-color: #22c55e;
+            color: white;
+        }
+
+        .habit-cell.missed {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-color: #ef4444;
+            color: white;
+        }
+
+        .habit-cell.partial {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-color: #f59e0b;
+            color: white;
+        }
+
+        .tracker-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #d97706;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .goal-review {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .goal-timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .goal-timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            border-radius: 2px;
+            z-index: 1;
+        }
+
+        .timeline-point {
+            background: white;
+            border: 4px solid #f59e0b;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-point:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .timeline-point.completed {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: white;
+        }
+
+        .timeline-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .timeline-label {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #64748b;
+            width: 60px;
+        }
+
+        .monitoring-tools {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .tool-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0;
+            position: relative;
+        }
+
+        .tool-card:hover {
+            border-color: #f59e0b;
+            transform: translateY(-3px);
+        }
+
+        .tool-card.active {
+            border-color: #22c55e;
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .tool-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #d97706;
+            margin-bottom: 10px;
+        }
+
+        .tool-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .tool-frequency {
+            background: #fef3c7;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 0.8rem;
+            color: #92400e;
+            font-weight: 600;
+        }
+
+        .motivation-system {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .motivation-strategies {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .motivation-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .motivation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .motivation-card:hover::before {
+            left: 100%;
+        }
+
+        .motivation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .motivation-icon {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .motivation-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #d97706;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .motivation-content {
+            color: #374151;
+            margin-bottom: 20px;
+        }
+
+        .motivation-actions {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .motivation-actions h4 {
+            color: #d97706;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.1);
+        }
+
+        .action-item:last-child {
+            border-bottom: none;
+        }
+
+        .action-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #f59e0b;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .action-checkbox.checked {
+            background: #22c55e;
+            border-color: #22c55e;
+        }
+
+        .action-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .action-text {
+            font-size: 0.85rem;
+            color: #374151;
+            flex: 1;
+        }
+
+        .success-system {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .achievement-badge {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0;
+            position: relative;
+        }
+
+        .achievement-badge:hover {
+            border-color: #f59e0b;
+            transform: scale(1.02);
+        }
+
+        .achievement-badge.earned {
+            border-color: #22c55e;
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+        }
+
+        .badge-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .achievement-badge.earned .badge-icon {
+            filter: grayscale(0%);
+        }
+
+        .badge-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+
+        .achievement-badge.earned .badge-title {
+            color: #059669;
+        }
+
+        .badge-description {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .interactive-tip {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #f59e0b;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .interactive-tip:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.2);
+        }
+
+        .tip-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .tip-text {
+            font-weight: 600;
+            color: #92400e;
+        }
+
+        .progress-tracker {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .progress-bar {
+            width: 150px;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-align: center;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-button {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 80px 15px 30px;
+            }
+
+            .risk-scenarios {
+                grid-template-columns: 1fr;
+            }
+
+            .habit-tracker {
+                grid-template-columns: repeat(7, 1fr);
+                gap: 5px;
+            }
+
+            .tracker-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .goal-timeline {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .goal-timeline::before {
+                display: none;
+            }
+
+            .timeline-labels {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .motivation-strategies {
+                grid-template-columns: 1fr;
+            }
+
+            .achievement-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .progress-tracker {
+                bottom: 15px;
+                right: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-elements">
+        <div class="floating-success">🏆</div>
+        <div class="floating-success">⭐</div>
+        <div class="floating-success">🎯</div>
+        <div class="floating-success">💪</div>
+        <div class="floating-success">🌟</div>
+        <div class="floating-success">🎉</div>
+        <div class="floating-success">✨</div>
+    </div>
+
+    <nav class="nav-bar">
+        <div class="nav-content">
+            <div class="nav-title">Staying on Track & Long-Term Maintenance</div>
+            <div class="nav-progress">
+                <div class="nav-step completed"></div>
+                <div class="nav-step completed"></div>
+                <div class="nav-step completed"></div>
+                <div class="nav-step completed"></div>
+                <div class="nav-step completed"></div>
+                <div class="nav-step completed"></div>
+                <div class="nav-step completed"></div>
+                <div class="nav-step active"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <span class="page-number">Page 7 of 8</span>
+            <h1 class="page-title">Staying on Track & Long-Term Maintenance</h1>
+            <p class="page-subtitle">Build lasting habits, prevent setbacks, and maintain your healthy lifestyle for life</p>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">🛡️</span>
+                Relapse Prevention Strategies
+            </h2>
+
+            <div class="relapse-prevention">
+                <h3 style="font-size: 1.5rem; color: #d97706; margin-bottom: 20px; text-align: center;">Identify High-Risk Situations & Plan Ahead</h3>
+                <p style="text-align: center; color: #64748b; margin-bottom: 30px;">
+                    Click on each scenario to develop personalized strategies for staying on track during challenging times
+                </p>
+
+                <div class="risk-scenarios">
+                    <div class="scenario-card" onclick="planScenario(this, 'social-gatherings')">
+                        <div class="scenario-icon">🎉</div>
+                        <h4 class="scenario-title">Social Gatherings</h4>
+                        <p class="scenario-description">
+                            Parties, holidays, and celebrations with tempting foods and peer pressure
+                        </p>
+                        <div class="scenario-strategies">
+                            <h4>Your Action Plan:</h4>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🥗</span>
+                                <span class="strategy-text">Eat a healthy snack before going</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">💧</span>
+                                <span class="strategy-text">Bring a water bottle and stay hydrated</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🤝</span>
+                                <span class="strategy-text">Find a supportive friend to attend with</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🎯</span>
+                                <span class="strategy-text">Set a specific goal before arriving</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scenario-card" onclick="planScenario(this, 'stress-periods')">
+                        <div class="scenario-icon">😰</div>
+                        <h4 class="scenario-title">Stressful Periods</h4>
+                        <p class="scenario-description">
+                            Exams, family problems, or overwhelming schedules that disrupt healthy routines
+                        </p>
+                        <div class="scenario-strategies">
+                            <h4>Your Action Plan:</h4>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🧘‍♀️</span>
+                                <span class="strategy-text">Practice 5-minute daily stress relief</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">📱</span>
+                                <span class="strategy-text">Use apps for quick healthy meal ideas</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">👥</span>
+                                <span class="strategy-text">Reach out to support network early</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">📝</span>
+                                <span class="strategy-text">Keep a simple habit tracker</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scenario-card" onclick="planScenario(this, 'schedule-changes')">
+                        <div class="scenario-icon">📅</div>
+                        <h4 class="scenario-title">Schedule Changes</h4>
+                        <p class="scenario-description">
+                            Summer break, new school year, or routine disruptions that break established habits
+                        </p>
+                        <div class="scenario-strategies">
+                            <h4>Your Action Plan:</h4>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🗓️</span>
+                                <span class="strategy-text">Plan new routine 1 week in advance</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🎯</span>
+                                <span class="strategy-text">Focus on 1-2 core habits initially</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">⏰</span>
+                                <span class="strategy-text">Set phone reminders for new schedule</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🔄</span>
+                                <span class="strategy-text">Be flexible and adjust as needed</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scenario-card" onclick="planScenario(this, 'motivation-drops')">
+                        <div class="scenario-icon">📉</div>
+                        <h4 class="scenario-title">Motivation Drops</h4>
+                        <p class="scenario-description">
+                            Periods when you feel unmotivated, bored, or questioning why you started
+                        </p>
+                        <div class="scenario-strategies">
+                            <h4>Your Action Plan:</h4>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">📖</span>
+                                <span class="strategy-text">Review your "why" and original goals</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🏆</span>
+                                <span class="strategy-text">Celebrate small wins and progress</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🔄</span>
+                                <span class="strategy-text">Try new activities to regain interest</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">💬</span>
+                                <span class="strategy-text">Talk to someone who supports you</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scenario-card" onclick="planScenario(this, 'peer-pressure')">
+                        <div class="scenario-icon">👥</div>
+                        <h4 class="scenario-title">Peer Pressure</h4>
+                        <p class="scenario-description">
+                            Friends or social groups that don't support or actively discourage healthy choices
+                        </p>
+                        <div class="scenario-strategies">
+                            <h4>Your Action Plan:</h4>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🗣️</span>
+                                <span class="strategy-text">Practice saying "no" with confidence</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🎯</span>
+                                <span class="strategy-text">Suggest alternative activities</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🤝</span>
+                                <span class="strategy-text">Find friends with similar values</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">💪</span>
+                                <span class="strategy-text">Remember your health is YOUR priority</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="scenario-card" onclick="planScenario(this, 'setbacks')">
+                        <div class="scenario-icon">⚡</div>
+                        <h4 class="scenario-title">After a Setback</h4>
+                        <p class="scenario-description">
+                            When you've "slipped up" or had a bad day/week and feel like giving up
+                        </p>
+                        <div class="scenario-strategies">
+                            <h4>Your Action Plan:</h4>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">💙</span>
+                                <span class="strategy-text">Practice self-compassion, not self-criticism</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🔍</span>
+                                <span class="strategy-text">Analyze what triggered the setback</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">🚀</span>
+                                <span class="strategy-text">Start fresh immediately, don't wait</span>
+                            </div>
+                            <div class="strategy-item">
+                                <span class="strategy-emoji">📞</span>
+                                <span class="strategy-text">Reach out for support if needed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-tip" onclick="showRelapseTip(this)">
+                    <span class="tip-icon">🛡️</span>
+                    <span class="tip-text">Prevention tip: Having a plan for 3+ scenarios increases success rate by 67%!</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">📊</span>
+                Interactive Habit Tracker
+            </h2>
+
+            <div class="progress-tracking">
+                <h3 style="font-size: 1.5rem; color: #d97706; margin-bottom: 20px; text-align: center;">Track Your Daily Habits</h3>
+                <p style="text-align: center; color: #64748b; margin-bottom: 30px;">
+                    Click on each day to mark: ✅ Completed, ⚡ Partial, ❌ Missed. Consistency is more important than perfection!
+                </p>
+
+                <div class="habit-tracker">
+                    <div class="day-header">MON</div>
+                    <div class="day-header">TUE</div>
+                    <div class="day-header">WED</div>
+                    <div class="day-header">THU</div>
+                    <div class="day-header">FRI</div>
+                    <div class="day-header">SAT</div>
+                    <div class="day-header">SUN</div>
+                    
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 1)" data-day="1">1</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 2)" data-day="2">2</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 3)" data-day="3">3</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 4)" data-day="4">4</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 5)" data-day="5">5</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 6)" data-day="6">6</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 7)" data-day="7">7</div>
+                    
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 8)" data-day="8">8</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 9)" data-day="9">9</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 10)" data-day="10">10</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 11)" data-day="11">11</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 12)" data-day="12">12</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 13)" data-day="13">13</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 14)" data-day="14">14</div>
+                    
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 15)" data-day="15">15</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 16)" data-day="16">16</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 17)" data-day="17">17</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 18)" data-day="18">18</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 19)" data-day="19">19</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 20)" data-day="20">20</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 21)" data-day="21">21</div>
+                    
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 22)" data-day="22">22</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 23)" data-day="23">23</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 24)" data-day="24">24</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 25)" data-day="25">25</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 26)" data-day="26">26</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 27)" data-day="27">27</div>
+                    <div class="habit-cell" onclick="toggleHabitStatus(this, 28)" data-day="28">28</div>
+                </div>
+
+                <div class="tracker-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="completedDays">0</div>
+                        <div class="stat-label">Days Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="currentStreak">0</div>
+                        <div class="stat-label">Current Streak</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="successRate">0%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalDays">28</div>
+                        <div class="stat-label">Total Days</div>
+                    </div>
+                </div>
+
+                <div class="interactive-tip" onclick="showTrackingTip(this)">
+                    <span class="tip-icon">📈</span>
+                    <span class="tip-text">Tracking power: People who track daily habits are 2.4x more likely to achieve their goals!</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">🎯</span>
+                Goal Setting & Regular Review
+            </h2>
+
+            <div class="goal-review">
+                <h3 style="font-size: 1.5rem; color: #d97706; margin-bottom: 20px; text-align: center;">Your Health Journey Timeline</h3>
+                <p style="text-align: center; color: #64748b; margin-bottom: 30px;">
+                    Click each milestone to set specific goals and review your progress regularly
+                </p>
+
+                <div class="goal-timeline">
+                    <div class="timeline-point" onclick="reviewGoal(this, 'week')" data-period="week">1W</div>
+                    <div class="timeline-point" onclick="reviewGoal(this, 'month')" data-period="month">1M</div>
+                    <div class="timeline-point" onclick="reviewGoal(this, 'quarter')" data-period="quarter">3M</div>
+                    <div class="timeline-point" onclick="reviewGoal(this, 'year')" data-period="year">1Y</div>
+                </div>
+
+                <div class="timeline-labels">
+                    <div class="timeline-label">1 Week</div>
+                    <div class="timeline-label">1 Month</div>
+                    <div class="timeline-label">3 Months</div>
+                    <div class="timeline-label">1 Year</div>
+                </div>
+
+                <div style="background: #fef3c7; border-radius: 15px; padding: 25px; margin-top: 30px;" id="goalReviewArea">
+                    <h4 style="color: #d97706; margin-bottom: 15px; text-align: center;">Click a timeline point above to set or review goals</h4>
+                    <p style="color: #64748b; text-align: center; font-style: italic;">Regular goal review helps you stay motivated and adjust your approach as needed.</p>
+                </div>
+
+                <div class="interactive-tip" onclick="showGoalTip(this)">
+                    <span class="tip-icon">⏰</span>
+                    <span class="tip-text">Review rhythm: Weekly check-ins + monthly deep reviews = 85% higher goal achievement!</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">🔍</span>
+                Self-Monitoring Toolkit
+            </h2>
+
+            <div class="monitoring-tools">
+                <h3 style="font-size: 1.5rem; color: #d97706; margin-bottom: 20px; text-align: center;">Choose Your Monitoring Methods</h3>
+                <p style="text-align: center; color: #64748b; margin-bottom: 30px;">
+                    Select the tools that work best for your lifestyle. Different methods work for different people!
+                </p>
+
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="selectTool(this, 'food-diary')">
+                        <div class="tool-icon">📝</div>
+                        <h4 class="tool-title">Food Diary</h4>
+                        <p class="tool-description">Track what you eat, when, and how you feel</p>
+                        <div class="tool-frequency">Daily for 1-2 weeks</div>
+                    </div>
+
+                    <div class="tool-card" onclick="selectTool(this, 'mood-tracker')">
+                        <div class="tool-icon">😊</div>
+                        <h4 class="tool-title">Mood Tracker</h4>
+                        <p class="tool-description">Monitor emotional patterns and triggers</p>
+                        <div class="tool-frequency">Daily (1-10 scale)</div>
+                    </div>
+
+                    <div class="tool-card" onclick="selectTool(this, 'activity-log')">
+                        <div class="tool-icon">🏃‍♀️</div>
+                        <h4 class="tool-title">Activity Log</h4>
+                        <p class="tool-description">Record physical activities and duration</p>
+                        <div class="tool-frequency">Daily tracking</div>
+                    </div>
+
+                    <div class="tool-card" onclick="selectTool(this, 'weight-measurements')">
+                        <div class="tool-icon">⚖️</div>
+                        <h4 class="tool-title">Weight Tracking</h4>
+                        <p class="tool-description">Monitor weight changes over time</p>
+                        <div class="tool-frequency">Weekly, same day/time</div>
+                    </div>
+
+                    <div class="tool-card" onclick="selectTool(this, 'sleep-log')">
+                        <div class="tool-icon">😴</div>
+                        <h4 class="tool-title">Sleep Log</h4>
+                        <p class="tool-description">Track sleep quality and duration</p>
+                        <div class="tool-frequency">Daily bedtime/wake time</div>
+                    </div>
+
+                    <div class="tool-card" onclick="selectTool(this, 'photo-progress')">
+                        <div class="tool-icon">📸</div>
+                        <h4 class="tool-title">Progress Photos</h4>
+                        <p class="tool-description">Visual documentation of changes</p>
+                        <div class="tool-frequency">Monthly, consistent lighting</div>
+                    </div>
+                </div>
+
+                <div class="interactive-tip" onclick="showMonitoringTip(this)">
+                    <span class="tip-icon">🎯</span>
+                    <span class="tip-text">Monitoring magic: Self-awareness from tracking prevents 78% of unhealthy behavior patterns!</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">🔥</span>
+                Maintaining Long-Term Motivation
+            </h2>
+
+            <div class="motivation-system">
+                <h3 style="font-size: 1.5rem; color: #d97706; margin-bottom: 20px; text-align: center;">Build Your Motivation Maintenance System</h3>
+                <p style="text-align: center; color: #64748b; margin-bottom: 30px;">
+                    Click each strategy to explore actions you can take to keep your motivation strong over time
+                </p>
+
+                <div class="motivation-strategies">
+                    <div class="motivation-card" onclick="exploreMotivation(this, 'variety')">
+                        <div class="motivation-icon">🌈</div>
+                        <h4 class="motivation-title">Keep It Fresh</h4>
+                        <p class="motivation-content">
+                            Regularly introduce variety to prevent boredom and maintain engagement with your healthy habits.
+                        </p>
+                        <div class="motivation-actions">
+                            <h4>Action Items:</h4>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Try a new healthy recipe each week</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Explore different types of physical activities</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Change workout routes or environments</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Set new mini-challenges monthly</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="motivation-card" onclick="exploreMotivation(this, 'social')">
+                        <div class="motivation-icon">👥</div>
+                        <h4 class="motivation-title">Social Connection</h4>
+                        <p class="motivation-content">
+                            Build and maintain relationships with people who support and share your health goals.
+                        </p>
+                        <div class="motivation-actions">
+                            <h4>Action Items:</h4>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Join a sports club or fitness group</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Find an accountability buddy</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Share goals with family and friends</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Celebrate milestones with supportive people</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="motivation-card" onclick="exploreMotivation(this, 'intrinsic')">
+                        <div class="motivation-icon">❤️</div>
+                        <h4 class="motivation-title">Intrinsic Motivation</h4>
+                        <p class="motivation-content">
+                            Focus on internal rewards like feeling strong, confident, and energetic rather than just external outcomes.
+                        </p>
+                        <div class="motivation-actions">
+                            <h4>Action Items:</h4>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Keep a daily energy/mood journal</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Notice and celebrate how you feel after healthy choices</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Focus on strength and capability gains</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Connect habits to your core values</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="motivation-card" onclick="exploreMotivation(this, 'identity')">
+                        <div class="motivation-icon">🌟</div>
+                        <h4 class="motivation-title">Identity-Based Habits</h4>
+                        <p class="motivation-content">
+                            Shift from "I'm trying to be healthy" to "I am a healthy person" - make it part of who you are.
+                        </p>
+                        <div class="motivation-actions">
+                            <h4>Action Items:</h4>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Say "I am someone who exercises" vs "I should exercise"</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Make choices that reinforce your healthy identity</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Act like the person you want to become</div>
+                            </div>
+                            <div class="action-item">
+                                <div class="action-checkbox" onclick="toggleAction(this)"></div>
+                                <div class="action-text">Vote for your identity with every choice</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="interactive-tip" onclick="showMotivationTip(this)">
+                    <span class="tip-icon">🚀</span>
+                    <span class="tip-text">Motivation science: Identity-based habits are 4x more likely to be maintained long-term!</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="section-icon">🏆</span>
+                Celebrate Your Achievements
+            </h2>
+
+            <div class="success-system">
+                <h3 style="font-size: 1.5rem; color: #d97706; margin-bottom: 20px; text-align: center;">Unlock Achievement Badges</h3>
+                <p style="text-align: center; color: #64748b; margin-bottom: 30px;">
+                    Click badges to "earn" them and celebrate your progress. Recognition builds momentum for continued success!
+                </p>
+
+                <div class="achievement-grid">
+                    <div class="achievement-badge" onclick="earnBadge(this, 'first-week')">
+                        <div class="badge-icon">🌱</div>
+                        <div class="badge-title">First Steps</div>
+                        <div class="badge-description">Complete 1 week of tracking</div>
+                    </div>
+
+                    <div class="achievement-badge" onclick="earnBadge(this, 'consistency')">
+                        <div class="badge-icon">📅</div>
+                        <div class="badge-title">Consistency King</div>
+                        <div class="badge-description">7 days in a row</div>
+                    </div>
+
+                    <div class="achievement-badge" onclick="earnBadge(this, 'bouncer')">
+                        <div class="badge-icon">⚡</div>
+                        <div class="badge-title">Bounce Back</div>
+                        <div class="badge-description">Recover from a setback</div>
+                    </div>
+
+                    <div class="achievement-badge" onclick="earnBadge(this, 'social')">
+                        <div class="badge-icon">👥</div>
+                        <div class="badge-title">Social Support</div>
+                        <div class="badge-description">Involve friends/family</div>
+                    </div>
+
+                    <div class="achievement-badge" onclick="earnBadge(this, 'variety')">
+                        <div class="badge-icon">🌈</div>
+                        <div class="badge-title">Variety Champion</div>
+                        <div class="badge-description">Try 5 new activities</div>
+                    </div>
+
+                    <div class="achievement-badge" onclick="earnBadge(this, 'month-master')">
+                        <div class="badge-icon">🗓️</div>
+                        <div class="badge-title">Month Master</div>
+                        <div class="badge-description">30 days of progress</div>
+                    </div>
+
+                    <div class="achievement-badge" onclick="earnBadge(this, 'goal-setter')">
+                        <div class="badge-icon">🎯</div>
+                        <div class="badge-title">Goal Getter</div>
+                        <div class="badge-description">Achieve a major goal</div>
+                    </div>
+
+                    <div class="achievement-badge" onclick="earnBadge(this, 'lifestyle')">
+                        <div class="badge-icon">⭐</div>
+                        <div class="badge-title">Lifestyle Legend</div>
+                        <div class="badge-description">6 months of healthy living</div>
+                    </div>
+                </div>
+
+                <div style="background: #fef3c7; border-radius: 15px; padding: 25px; margin-top: 30px; text-align: center;" id="badgeCounter">
+                    <h4 style="color: #d97706; margin-bottom: 10px;">Badges Earned: <span id="earnedCount">0</span> / 8</h4>
+                    <p style="color: #64748b; font-size: 0.9rem;">Every achievement, no matter how small, is worth celebrating!</p>
+                </div>
+
+                <div class="interactive-tip" onclick="showCelebrationTip(this)">
+                    <span class="tip-icon">🎉</span>
+                    <span class="tip-text">Celebration science: Recognizing progress releases dopamine and reinforces positive behavior patterns!</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="goBack()">
+                ← Previous: Mental Health & Stress
+            </button>
+            <button class="nav-button" onclick="goNext()">
+                Next: Conclusion & Resources →
+            </button>
+        </div>
+    </div>
+
+    <div class="progress-tracker">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">Page Progress: 0%</div>
+    </div>
+
+    <script>
+        // Global variables
+        let plannedScenarios = [];
+        let habitStatus = {};
+        let selectedTools = [];
+        let earnedBadges = [];
+        let completedActions = 0;
+        let currentProgress = 0;
+        let maxProgress = 8;
+        let interactionCount = 0;
+
+        // Goal review content
+        const goalReviews = {
+            'week': {
+                title: '1-Week Goals',
+                content: `
+                    <h4 style="color: #d97706; margin-bottom: 15px;">Weekly Focus Areas:</h4>
+                    <div style="text-align: left;">
+                        <p style="margin-bottom: 10px;"><strong>🎯 Habit Formation:</strong> Focus on 1-2 key habits</p>
+                        <p style="margin-bottom: 10px;"><strong>📊 Track Daily:</strong> Use your chosen monitoring tools</p>
+                        <p style="margin-bottom: 10px;"><strong>🔄 Adjust Quickly:</strong> Notice what works and what doesn't</p>
+                        <p style="margin-bottom: 10px;"><strong>💪 Build Momentum:</strong> Celebrate small daily wins</p>
+                        <p style="margin-top: 15px; font-style: italic; color: #d97706;">Week 1 is about establishing routines, not perfection!</p>
+                    </div>
+                `
+            },
+            'month': {
+                title: '1-Month Goals',
+                content: `
+                    <h4 style="color: #d97706; margin-bottom: 15px;">Monthly Milestones:</h4>
+                    <div style="text-align: left;">
+                        <p style="margin-bottom: 10px;"><strong>🏆 Consistency:</strong> Aim for 80% completion rate</p>
+                        <p style="margin-bottom: 10px;"><strong>📈 Progress Check:</strong> Review what's working well</p>
+                        <p style="margin-bottom: 10px;"><strong>🔧 Refine Systems:</strong> Adjust habits based on experience</p>
+                        <p style="margin-bottom: 10px;"><strong>🌱 Add Complexity:</strong> Introduce new healthy behaviors</p>
+                        <p style="margin-top: 15px; font-style: italic; color: #d97706;">Month 1 is about proving to yourself that change is possible!</p>
+                    </div>
+                `
+            },
+            'quarter': {
+                title: '3-Month Goals',
+                content: `
+                    <h4 style="color: #d97706; margin-bottom: 15px;">Quarterly Transformation:</h4>
+                    <div style="text-align: left;">
+                        <p style="margin-bottom: 10px;"><strong>🎯 Habit Mastery:</strong> Habits should feel more automatic</p>
+                        <p style="margin-bottom: 10px;"><strong>💪 Physical Changes:</strong> Notice improvements in energy and strength</p>
+                        <p style="margin-bottom: 10px;"><strong>🧠 Mental Shifts:</strong> Increased confidence and self-efficacy</p>
+                        <p style="margin-bottom: 10px;"><strong>🌐 Social Integration:</strong> Healthy choices are part of your identity</p>
+                        <p style="margin-top: 15px; font-style: italic; color: #d97706;">Quarter 1 is about transformation becoming visible!</p>
+                    </div>
+                `
+            },
+            'year': {
+                title: '1-Year Vision',
+                content: `
+                    <h4 style="color: #d97706; margin-bottom: 15px;">Annual Achievements:</h4>
+                    <div style="text-align: left;">
+                        <p style="margin-bottom: 10px;"><strong>🌟 Lifestyle Integration:</strong> Health is part of who you are</p>
+                        <p style="margin-bottom: 10px;"><strong>🔄 Resilience:</strong> You bounce back quickly from setbacks</p>
+                        <p style="margin-bottom: 10px;"><strong>📚 Knowledge Expert:</strong> You help others with their health journey</p>
+                        <p style="margin-bottom: 10px;"><strong>🎯 New Challenges:</strong> Ready for advanced health goals</p>
+                        <p style="margin-top: 15px; font-style: italic; color: #d97706;">Year 1 is about becoming the healthy person you envisioned!</p>
+                    </div>
+                `
+            }
+        };
+
+        // Scenario planning
+        function planScenario(card, scenarioType) {
+            if (plannedScenarios.includes(scenarioType)) {
+                return;
+            }
+            
+            plannedScenarios.push(scenarioType);
+            card.classList.add('planned');
+            
+            const feedback = document.createElement('div');
+            feedback.innerHTML = `✅ Scenario planned! You're prepared for ${card.querySelector('.scenario-title').textContent}`;
+            feedback.style.cssText = `
+                position: fixed;
+                bottom: 120px;
+                right: 30px;
+                background: linear-gradient(135deg, #22c55e, #15803d);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 15px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                opacity: 0;
+                transition: all 0.5s ease;
+                z-index: 1000;
+                max-width: 350px;
+            `;
+            
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                feedback.style.opacity = '0';
+                setTimeout(() => feedback.remove(), 300);
+            }, 4000);
+            
+            if (plannedScenarios.length >= 3) {
+                showPreparationSuccess();
+            }
+            
+            updateProgress();
+            trackEngagement();
+        }
+
+        function showPreparationSuccess() {
+            const success = document.createElement('div');
+            success.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">🛡️</div>
+                    <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">Well Prepared!</div>
+                    <div style="font-size: 0.9rem;">You've planned for multiple scenarios. This preparation dramatically increases your success rate!</div>
+                </div>
+            `;
+            success.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: white;
+                padding: 30px;
+                border-radius: 20px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                opacity: 0;
+                transition: all 0.5s ease;
+                max-width: 400px;
+            `;
+            
+            document.body.appendChild(success);
+            
+            setTimeout(() => {
+                success.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                success.style.opacity = '0';
+                setTimeout(() => success.remove(), 500);
+            }, 4000);
+        }
+
+        // Habit tracking functionality
+        function toggleHabitStatus(cell, day) {
+            const currentStatus = habitStatus[day] || 'empty';
+            let newStatus;
+            
+            if (currentStatus === 'empty') {
+                newStatus = 'completed';
+                cell.innerHTML = '✅';
+                cell.className = 'habit-cell completed';
+            } else if (currentStatus === 'completed') {
+                newStatus = 'partial';
+                cell.innerHTML = '⚡';
+                cell.className = 'habit-cell partial';
+            } else if (currentStatus === 'partial') {
+                newStatus = 'missed';
+                cell.innerHTML = '❌';
+                cell.className = 'habit-cell missed';
+            } else {
+                newStatus = 'empty';
+                cell.innerHTML = day;
+                cell.className = 'habit-cell';
+            }
+            
+            habitStatus[day] = newStatus;
+            updateHabitStats();
+            updateProgress();
+            trackEngagement();
+        }
+
+        function updateHabitStats() {
+            const totalDays = 28;
+            const completedDays = Object.values(habitStatus).filter(status => status === 'completed').length;
+            const partialDays = Object.values(habitStatus).filter(status => status === 'partial').length;
+            const totalProgress = completedDays + (partialDays * 0.5);
+            
+            let currentStreak = 0;
+            for (let day = 28; day >= 1; day--) {
+                const status = habitStatus[day] || 'empty';
+                if (status === 'completed' || status === 'partial') {
+                    currentStreak++;
+                } else if (status === 'missed') {
+                    break;
+                }
+            }
+            
+            const successRate = totalProgress > 0 ? Math.round((totalProgress / totalDays) * 100) : 0;
+            
+            document.getElementById('completedDays').textContent = completedDays;
+            document.getElementById('currentStreak').textContent = currentStreak;
+            document.getElementById('successRate').textContent = successRate + '%';
+            
+            if (completedDays === 7) {
+                showTrackingMilestone('First Week Complete! 🌟');
+            } else if (currentStreak === 7) {
+                showTrackingMilestone('7-Day Streak! 🔥');
+            } else if (completedDays === 21) {
+                showTrackingMilestone('Habit Formation Zone! 💪');
+            }
+        }
+
+        function showTrackingMilestone(message) {
+            const milestone = document.createElement('div');
+            milestone.innerHTML = message;
+            milestone.style.cssText = `
+                position: fixed;
+                top: 20%;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 25px;
+                font-size: 1.2rem;
+                font-weight: 700;
+                opacity: 0;
+                transition: all 0.5s ease;
+                z-index: 1000;
+                text-align: center;
+                box-shadow: 0 15px 35px rgba(245, 158, 11, 0.3);
+            `;
+            
+            document.body.appendChild(milestone);
+            
+            setTimeout(() => {
+                milestone.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                milestone.style.opacity = '0';
+                setTimeout(() => milestone.remove(), 500);
+            }, 4000);
+        }
+
+        // Goal review functionality
+        function reviewGoal(point, period) {
+            document.querySelectorAll('.timeline-point').forEach(p => {
+                p.classList.remove('completed');
+            });
+            
+            point.classList.add('completed');
+            
+            const reviewArea = document.getElementById('goalReviewArea');
+            const goalData = goalReviews[period];
+            
+            reviewArea.innerHTML = `
+                <h4 style="color: #d97706; margin-bottom: 15px; text-align: center;">${goalData.title}</h4>
+                ${goalData.content}
+            `;
+            
+            updateProgress();
+            trackEngagement();
+        }
+
+        // Monitoring tools selection
+        function selectTool(card, toolType) {
+            if (selectedTools.includes(toolType)) {
+                selectedTools = selectedTools.filter(t => t !== toolType);
+                card.classList.remove('active');
+            } else {
+                selectedTools.push(toolType);
+                card.classList.add('active');
+            }
+            
+            const feedback = document.createElement('div');
+            feedback.innerHTML = selectedTools.includes(toolType) 
+                ? `📊 Tool selected: ${card.querySelector('.tool-title').textContent}`
+                : `➖ Tool deselected: ${card.querySelector('.tool-title').textContent}`;
+            feedback.style.cssText = `
+                position: fixed;
+                bottom: 120px;
+                left: 30px;
+                background: ${selectedTools.includes(toolType) ? '#f59e0b' : '#64748b'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 15px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                opacity: 0;
+                transition: all 0.5s ease;
+                z-index: 1000;
+                max-width: 300px;
+            `;
+            
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                feedback.style.opacity = '0';
+                setTimeout(() => feedback.remove(), 300);
+            }, 3000);
+            
+            updateProgress();
+            trackEngagement();
+        }
+
+        // Motivation exploration
+        function exploreMotivation(card, motivationType) {
+            card.style.transform = 'translateY(-10px) scale(1.02)';
+            card.style.boxShadow = '0 20px 40px rgba(245, 158, 11, 0.2)';
+            
+            const feedback = document.createElement('div');
+            feedback.innerHTML = `🔥 Motivation strategy explored! You're building lasting drive!`;
+            feedback.style.cssText = `
+                position: absolute;
+                top: -50px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #f59e0b;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 25px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                opacity: 0;
+                transition: all 0.5s ease;
+                pointer-events: none;
+                z-index: 10;
+                white-space: nowrap;
+            `;
+            
+            card.style.position = 'relative';
+            card.appendChild(feedback);
+            
+            setTimeout(() => {
+                feedback.style.opacity = '1';
+                feedback.style.top = '-60px';
+            }, 100);
+            
+            setTimeout(() => {
+                feedback.remove();
+                card.style.transform = 'translateY(0) scale(1)';
+                card.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+            }, 3500);
+            
+            updateProgress();
+            trackEngagement();
+        }
+
+        // Action item toggling
+        function toggleAction(checkbox) {
+            event.stopPropagation();
+            
+            if (checkbox.classList.contains('checked')) {
+                checkbox.classList.remove('checked');
+                completedActions--;
+            } else {
+                checkbox.classList.add('checked');
+                completedActions++;
+                
+                if (completedActions % 5 === 0) {
+                    showActionMilestone();
+                }
+            }
+        }
+
+        function showActionMilestone() {
+            const milestone = document.createElement('div');
+            milestone.innerHTML = `🎯 ${completedActions} Actions Completed! You're building strong motivation systems!`;
+            milestone.style.cssText = `
+                position: fixed;
+                top: 10px;
+                right: 30px;
+                background: linear-gradient(135deg, #22c55e, #15803d);
+                color: white;
+                padding: 15px 20px;
+                border-radius: 15px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                opacity: 0;
+                transition: all 0.5s ease;
+                z-index: 1000;
+                max-width: 300px;
+            `;
+            
+            document.body.appendChild(milestone);
+            
+            setTimeout(() => {
+                milestone.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                milestone.style.opacity = '0';
+                setTimeout(() => milestone.remove(), 300);
+            }, 4000);
+        }
+
+        // Badge earning system
+        function earnBadge(badge, badgeType) {
+            if (earnedBadges.includes(badgeType)) {
+                return;
+            }
+            
+            earnedBadges.push(badgeType);
+            badge.classList.add('earned');
+            
+            document.getElementById('earnedCount').textContent = earnedBadges.length;
+            
+            const celebration = document.createElement('div');
+            celebration.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">🏆</div>
+                    <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">Badge Earned!</div>
+                    <div style="font-size: 1.1rem; margin-bottom: 10px;">${badge.querySelector('.badge-title').textContent}</div>
+                    <div style="font-size: 0.9rem;">${badge.querySelector('.badge-description').textContent}</div>
+                </div>
+            `;
+            celebration.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: white;
+                padding: 30px;
+                border-radius: 20px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                opacity: 0;
+                transition: all 0.5s ease;
+                max-width: 400px;
+            `;
+            
+            document.body.appendChild(celebration);
+            
+            setTimeout(() => {
+                celebration.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                celebration.style.opacity = '0';
+                setTimeout(() => celebration.remove(), 500);
+            }, 3000);
+            
+            if (earnedBadges.length === 4) {
+                setTimeout(() => showBadgeMilestone('Halfway Hero! 🌟'), 3500);
+            } else if (earnedBadges.length === 8) {
+                setTimeout(() => showBadgeMilestone('Achievement Master! 👑'), 3500);
+            }
+            
+            updateProgress();
+            trackEngagement();
+        }
+
+        function showBadgeMilestone(message) {
+            const milestone = document.createElement('div');
+            milestone.innerHTML = message;
+            milestone.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 25px;
+                font-size: 1.2rem;
+                font-weight: 700;
+                opacity: 0;
+                transition: all 0.5s ease;
+                z-index: 1000;
+                text-align: center;
+                box-shadow: 0 15px 35px rgba(139, 92, 246, 0.3);
+            `;
+            
+            document.body.appendChild(milestone);
+            
+            setTimeout(() => {
+                milestone.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                milestone.style.opacity = '0';
+                setTimeout(() => milestone.remove(), 500);
+            }, 4000);
+        }
+
+        // Interactive tips
+        function showRelapseTip(tip) {
+            const originalText = tip.querySelector('.tip-text').textContent;
+            tip.querySelector('.tip-text').textContent = 'Relapse prevention: The key is not avoiding all setbacks, but bouncing back quickly when they happen!';
+            tip.style.background = 'linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)';
+            tip.style.borderLeftColor = '#22c55e';
+            
+            setTimeout(() => {
+                tip.querySelector('.tip-text').textContent = originalText;
+                tip.style.background = 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)';
+                tip.style.borderLeftColor = '#f59e0b';
+            }, 4000);
+            
+            updateProgress();
+        }
+
+        function showTrackingTip(tip) {
+            const originalText = tip.querySelector('.tip-text').textContent;
+            tip.querySelector('.tip-text').textContent = 'Habit formation: It takes an average of 66 days to form a new habit, but tracking accelerates the process!';
+            tip.style.background = 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)';
+            tip.style.borderLeftColor = '#3b82f6';
+            
+            setTimeout(() => {
+                tip.querySelector('.tip-text').textContent = originalText;
+                tip.style.background = 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)';
+                tip.style.borderLeftColor = '#f59e0b';
+            }, 4000);
+        }
+
+        function showGoalTip(tip) {
+            const originalText = tip.querySelector('.tip-text').textContent;
+            tip.querySelector('.tip-text').textContent = 'Goal achievement: Regular review and adjustment increases success rate by 85% compared to "set and forget" goals!';
+            tip.style.background = 'linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%)';
+            tip.style.borderLeftColor = '#8b5cf6';
+            
+            setTimeout(() => {
+                tip.querySelector('.tip-text').textContent = originalText;
+                tip.style.background = 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)';
+                tip.style.borderLeftColor = '#f59e0b';
+            }, 4000);
+        }
+
+        function showMonitoringTip(tip) {
+            const originalText = tip.querySelector('.tip-text').textContent;
+            tip.querySelector('.tip-text').textContent = 'Self-monitoring superpower: People who track 3+ metrics are 4x more likely to maintain long-term changes!';
+            tip.style.background = 'linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%)';
+            tip.style.borderLeftColor = '#ec4899';
+            
+            setTimeout(() => {
+                tip.querySelector('.tip-text').textContent = originalText;
+                tip.style.background = 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)';
+                tip.style.borderLeftColor = '#f59e0b';
+            }, 4000);
+        }
+
+        function showMotivationTip(tip) {
+            const originalText = tip.querySelector('.tip-text').textContent;
+            tip.querySelector('.tip-text').textContent = 'Identity transformation: When you see yourself as "a healthy person," your actions automatically align with that identity!';
+            tip.style.background = 'linear-gradient(135deg, #fed7aa 0%, #fb923c 100%)';
+            tip.style.borderLeftColor = '#ea580c';
+            
+            setTimeout(() => {
+                tip.querySelector('.tip-text').textContent = originalText;
+                tip.style.background = 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)';
+                tip.style.borderLeftColor = '#f59e0b';
+            }, 4000);
+        }
+
+        function showCelebrationTip(tip) {
+            const originalText = tip.querySelector('.tip-text').textContent;
+            tip.querySelector('.tip-text').textContent = 'Celebration neuroplasticity: Recognizing achievements literally rewires your brain to seek more positive behaviors!';
+            tip.style.background = 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)';
+            tip.style.borderLeftColor = '#0284c7';
+            
+            setTimeout(() => {
+                tip.querySelector('.tip-text').textContent = originalText;
+                tip.style.background = 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)';
+                tip.style.borderLeftColor = '#f59e0b';
+            }, 4000);
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            currentProgress = Math.min(currentProgress + 1, maxProgress);
+            const percentage = Math.round((currentProgress / maxProgress) * 100);
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `Page Progress: ${percentage}%`;
+            
+            if (percentage === 100) {
+                showPageCompletion();
+            }
+        }
+
+        function showPageCompletion() {
+            const completion = document.createElement('div');
+            completion.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 15px;">🏆⭐</div>
+                    <div style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">Maintenance Master!</div>
+                    <div style="font-size: 0.9rem;">You have all the tools needed to maintain healthy habits for life! You're ready for lasting success!</div>
+                </div>
+            `;
+            completion.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                right: 30px;
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: white;
+                padding: 25px;
+                border-radius: 20px;
+                box-shadow: 0 15px 35px rgba(245, 158, 11, 0.3);
+                z-index: 1000;
+                opacity: 0;
+                transform: translateY(100px);
+                transition: all 0.5s ease;
+                max-width: 300px;
+                cursor: pointer;
+            `;
+            
+            document.body.appendChild(completion);
+            
+            setTimeout(() => {
+                completion.style.opacity = '1';
+                completion.style.transform = 'translateY(0)';
+            }, 100);
+            
+            completion.addEventListener('click', () => {
+                completion.style.opacity = '0';
+                completion.style.transform = 'translateY(100px)';
+                setTimeout(() => completion.remove(), 500);
+            });
+        }
+
+        // Engagement tracking
+        function trackEngagement() {
+            interactionCount++;
+            
+            const milestones = [5, 10, 15, 20, 25];
+            const currentMilestone = milestones.findIndex(m => m === interactionCount);
+            
+            if (currentMilestone !== -1) {
+                showEngagementMilestone(currentMilestone);
+            }
+        }
+
+        function showEngagementMilestone(milestoneIndex) {
+            const messages = [
+                { emoji: '🌟', title: 'Maintenance Planner!', text: 'You\'re actively preparing for long-term success!' },
+                { emoji: '📊', title: 'Progress Tracker!', text: 'Your commitment to self-monitoring is excellent!' },
+                { emoji: '🎯', title: 'Goal Master!', text: 'You understand the power of systematic goal setting!' },
+                { emoji: '🔥', title: 'Motivation Expert!', text: 'You\'re building systems for lasting motivation!' },
+                { emoji: '👑', title: 'Lifestyle Legend!', text: 'You have mastered the art of sustainable healthy living!' }
+            ];
+            
+            const message = messages[milestoneIndex];
+            
+            const milestone = document.createElement('div');
+            milestone.innerHTML = `
+                <div style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 15px;">${message.emoji}</div>
+                    <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 10px;">${message.title}</div>
+                    <div style="font-size: 0.9rem;">${message.text}</div>
+                </div>
+            `;
+            milestone.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #f59e0b, #d97706);
+                color: white;
+                padding: 30px;
+                border-radius: 20px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                z-index: 1000;
+                opacity: 0;
+                transition: all 0.5s ease;
+                max-width: 350px;
+            `;
+            
+            document.body.appendChild(milestone);
+            
+            setTimeout(() => {
+                milestone.style.opacity = '1';
+            }, 100);
+            
+            setTimeout(() => {
+                milestone.style.opacity = '0';
+                setTimeout(() => milestone.remove(), 500);
+            }, 3500);
+        }
+
+        // Navigation functions
+        function goBack() {
+            event.target.innerHTML = '⏳ Loading...';
+            event.target.style.background = '#9ca3af';
+            
+            // Navigate back to previous page
+            setTimeout(() => {
+                window.location.href = 'healthy_habits_page6-fix.html';
+            }, 1000);
+        }
+        }
+
+        function goNext() {
+            updateNavProgress(9);
+            
+            event.target.innerHTML = '⏳ Loading...';
+            event.target.style.background = '#3b82f6';
+            
+            // Navigate to the next page
+            setTimeout(() => {
+                window.location.href = 'healthy_habits_page8-fix.html';
+            }, 1000);
+        }
+        }
+
+        function updateNavProgress(pageNumber) {
+            const steps = document.querySelectorAll('.nav-step');
+            steps.forEach((step, index) => {
+                if (index < pageNumber - 1) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (index === pageNumber - 1) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+        }
+
+        // Success summary generator
+        function generateSuccessSummary() {
+            if (interactionCount >= 15) {
+                const summary = document.createElement('div');
+                summary.innerHTML = `
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; margin-bottom: 15px;">🎉</div>
+                        <div style="font-size: 1.2rem; font-weight: 600; margin-bottom: 15px;">Your Success Profile</div>
+                        <div style="font-size: 0.9rem; margin-bottom: 20px; text-align: left;">
+                            📋 Scenarios Planned: ${plannedScenarios.length}/6<br>
+                            📊 Monitoring Tools: ${selectedTools.length} selected<br>
+                            🏆 Badges Earned: ${earnedBadges.length}/8<br>
+                            ✅ Actions Completed: ${completedActions}<br>
+                            📈 Habit Days Tracked: ${Object.keys(habitStatus).length}/28
+                        </div>
+                        <div style="font-size: 0.8rem; color: #d97706; font-style: italic;">
+                            You're building a comprehensive system for long-term success!
+                        </div>
+                        <button onclick="this.parentElement.parentElement.remove()" style="
+                            background: white; color: #d97706; border: none; padding: 8px 15px; 
+                            border-radius: 15px; margin-top: 15px; cursor: pointer; font-weight: 600;
+                        ">Amazing progress!</button>
+                    </div>
+                `;
+                summary.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 30px;
+                    background: linear-gradient(135deg, #f59e0b, #d97706);
+                    color: white;
+                    padding: 25px;
+                    border-radius: 20px;
+                    box-shadow: 0 15px 35px rgba(245, 158, 11, 0.3);
+                    z-index: 1000;
+                    opacity: 0;
+                    transform: translateX(-100px);
+                    transition: all 0.5s ease;
+                    max-width: 320px;
+                `;
+                
+                document.body.appendChild(summary);
+                
+                setTimeout(() => {
+                    summary.style.opacity = '1';
+                    summary.style.transform = 'translateX(0)';
+                }, 100);
+            }
+        }
+
+        // Habit streak celebration system
+        function celebrateStreaks() {
+            const streakMessages = [
+                "🔥 You're on fire! Keep that momentum going!",
+                "⚡ Consistency is your superpower!",
+                "🌟 Every day counts - you're proving that!",
+                "💪 Building habits like a champion!",
+                "🎯 Your dedication is inspiring!"
+            ];
+            
+            let maxStreak = 0;
+            let currentStreak = 0;
+            
+            for (let day = 1; day <= 28; day++) {
+                const status = habitStatus[day] || 'empty';
+                if (status === 'completed' || status === 'partial') {
+                    currentStreak++;
+                    maxStreak = Math.max(maxStreak, currentStreak);
+                } else if (status === 'missed') {
+                    currentStreak = 0;
+                }
+            }
+            
+            if (maxStreak >= 5) {
+                const randomMessage = streakMessages[Math.floor(Math.random() * streakMessages.length)];
+                
+                const celebration = document.createElement('div');
+                celebration.innerHTML = randomMessage;
+                celebration.style.cssText = `
+                    position: fixed;
+                    bottom: 30px;
+                    left: 30px;
+                    background: linear-gradient(135deg, #22c55e, #15803d);
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 25px;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    opacity: 0;
+                    transition: all 0.5s ease;
+                    z-index: 1000;
+                    max-width: 300px;
+                `;
+                
+                document.body.appendChild(celebration);
+                
+                setTimeout(() => {
+                    celebration.style.opacity = '1';
+                }, 100);
+                
+                setTimeout(() => {
+                    celebration.style.opacity = '0';
+                    setTimeout(() => celebration.remove(), 500);
+                }, 4000);
+            }
+        }
+
+        // Maintenance tips carousel
+        const maintenanceTips = [
+            "🔄 Remember: Progress isn't always linear - expect ups and downs!",
+            "🎯 Focus on systems, not just goals - systems create lasting change!",
+            "👥 Your support network is your secret weapon - use it!",
+            "📊 Regular self-monitoring prevents small slips from becoming big falls!",
+            "🏆 Celebrate every victory, no matter how small!",
+            "🧠 Your identity shapes your actions - see yourself as a healthy person!",
+            "⚡ Consistency beats perfection every single time!"
+        ];
+
+        function showMaintenanceTip() {
+            if (interactionCount >= 5) {
+                const randomTip = maintenanceTips[Math.floor(Math.random() * maintenanceTips.length)];
+                
+                const tipElement = document.createElement('div');
+                tipElement.innerHTML = `
+                    <div style="text-align: center;">
+                        <div style="font-size: 1rem; font-weight: 600; margin-bottom: 10px;">Maintenance Tip</div>
+                        <div style="font-size: 0.9rem; margin-bottom: 15px;">${randomTip}</div>
+                        <button onclick="this.parentElement.parentElement.remove()" style="
+                            background: white; color: #f59e0b; border: none; padding: 8px 15px; 
+                            border-radius: 15px; cursor: pointer; font-weight: 600;
+                        ">Thanks!</button>
+                    </div>
+                `;
+                tipElement.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    right: -350px;
+                    background: linear-gradient(135deg, #f59e0b, #d97706);
+                    color: white;
+                    padding: 20px;
+                    border-radius: 15px;
+                    box-shadow: 0 15px 35px rgba(245, 158, 11, 0.3);
+                    z-index: 1000;
+                    transition: all 0.5s ease;
+                    max-width: 320px;
+                `;
+                
+                document.body.appendChild(tipElement);
+                
+                setTimeout(() => {
+                    tipElement.style.right = '30px';
+                }, 100);
+                
+                setTimeout(() => {
+                    tipElement.style.right = '-350px';
+                    setTimeout(() => tipElement.remove(), 500);
+                }, 8000);
+            }
+        }
+
+        // Final success message for highly engaged users
+        function showFinalSuccessMessage() {
+            if (interactionCount >= 20 && plannedScenarios.length >= 3 && selectedTools.length >= 2) {
+                const finalMessage = document.createElement('div');
+                finalMessage.innerHTML = `
+                    <div style="text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">👑</div>
+                        <div style="font-size: 1.4rem; font-weight: 700; margin-bottom: 15px;">Lifestyle Transformation Complete!</div>
+                        <div style="font-size: 1rem; margin-bottom: 20px; line-height: 1.6;">
+                            You've demonstrated exceptional commitment to building a sustainable healthy lifestyle. 
+                            Your preparation, planning, and engagement show that you're ready for long-term success!
+                        </div>
+                        <div style="font-size: 0.9rem; font-style: italic; opacity: 0.9;">
+                            Remember: You now have all the tools, knowledge, and strategies needed to maintain 
+                            healthy habits for life. Trust in your abilities and keep moving forward!
+                        </div>
+                        <button onclick="this.parentElement.parentElement.remove()" style="
+                            background: white; color: #d97706; border: none; padding: 12px 25px; 
+                            border-radius: 25px; margin-top: 20px; cursor: pointer; font-weight: 700;
+                            font-size: 1rem;
+                        ">I'm ready for lasting success! 🚀</button>
+                    </div>
+                `;
+                finalMessage.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: linear-gradient(135deg, #f59e0b, #d97706);
+                    color: white;
+                    padding: 40px;
+                    border-radius: 25px;
+                    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+                    z-index: 1001;
+                    opacity: 0;
+                    transition: all 0.5s ease;
+                    max-width: 500px;
+                `;
+                
+                document.body.appendChild(finalMessage);
+                
+                setTimeout(() => {
+                    finalMessage.style.opacity = '1';
+                }, 100);
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.content-section');
+            elements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(50px)';
+                element.style.transition = 'all 0.8s ease';
+                element.style.transitionDelay = `${index * 0.2}s`;
+            });
+            
+            setTimeout(animateOnScroll, 100);
+            
+            // Set up periodic functions
+            setInterval(celebrateStreaks, 30000);
+            setInterval(showMaintenanceTip, 25000);
+            setTimeout(generateSuccessSummary, 40000);
+            setTimeout(showFinalSuccessMessage, 60000);
+        });
+
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.content-section');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                if (elementTop < window.innerHeight - 150) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+    </script>
+</body>
+</html>

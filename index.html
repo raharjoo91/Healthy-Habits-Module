@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthy Habits Module - School-Based Intervention</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Module overview */
+        .overview-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .overview-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 20px;
+        }
+
+        .overview-text {
+            font-size: 1.1rem;
+            color: #374151;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .start-button {
+            display: inline-block;
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Table of contents */
+        .toc-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .toc-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .toc-item {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toc-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .toc-item:hover::before {
+            left: 100%;
+        }
+
+        .toc-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: #3b82f6;
+        }
+
+        .toc-number {
+            display: inline-block;
+            background: linear-gradient(45deg, #3b82f6, #1d4ed8);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .toc-item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .toc-item-desc {
+            font-size: 0.9rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* Features section */
+        .features-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .features-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-text {
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2rem;
+            }
+            
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .overview-section,
+            .toc-section,
+            .features-section {
+                padding: 25px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Loading animation */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading overlay -->
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="main-title">Healthy Habits Module</h1>
+            <p class="subtitle">School-Based Intervention for Adolescent Health</p>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <div class="container">
+        <!-- Overview section -->
+        <section class="overview-section fade-in-up">
+            <h2 class="overview-title">Welcome to Your Health Journey</h2>
+            <p class="overview-text">
+                This comprehensive module is designed to empower adolescents with evidence-based strategies 
+                to reduce overweight and obesity through interactive learning, behavioral change techniques, 
+                and peer support systems. Based on Social Cognitive Theory, this intervention provides 
+                practical tools for building healthy habits that last a lifetime.
+            </p>
+            <a href="healthy_habits_cover.html" class="start-button" onclick="showLoading()">
+                🚀 Start Your Journey
+            </a>
+        </section>
+
+        <!-- Table of contents -->
+        <section class="toc-section fade-in-up">
+            <h2 class="toc-title">Module Contents</h2>
+            <div class="toc-grid">
+                <div class="toc-item" onclick="navigateTo('healthy_habits_cover.html')">
+                    <div class="toc-number">0</div>
+                    <h3 class="toc-item-title">Module Cover</h3>
+                    <p class="toc-item-desc">Introduction and overview of the healthy habits intervention program</p>
+                </div>
+
+                <div class="toc-item" onclick="navigateTo('healthy_habits_page1.html')">
+                    <div class="toc-number">1</div>
+                    <h3 class="toc-item-title">Introduction to Overweight & Obesity</h3>
+                    <p class="toc-item-desc">Understanding the basics, definitions, and global statistics</p>
+                </div>
+
+                <div class="toc-item" onclick="navigateTo('healthy_habits_page2.html')">
+                    <div class="toc-number">2</div>
+                    <h3 class="toc-item-title">Healthy Eating Habits</h3>
+                    <p class="toc-item-desc">Nutrition fundamentals, portion control, and smart food choices</p>
+                </div>
+
+                <div class="toc-item" onclick="navigateTo('healthy_habits_page3.html')">
+                    <div class="toc-number">3</div>
+                    <h3 class="toc-item-title">Physical Activity & Exercise</h3>
+                    <p class="toc-item-desc">Building active lifestyles and exercise routines</p>
+                </div>
+
+                <div class="toc-item" onclick="navigateTo('healthy_habits_page4_fix.html')">
+                    <div class="toc-number">4</div>
+                    <h3 class="toc-item-title">Behavioral Change Strategies</h3>
+                    <p class="toc-item-desc">Goal setting, habit formation, and motivation techniques</p>
+                </div>
+
+                <div class="toc-item" onclick="navigateTo('healthy_habits_page5.html')">
+                    <div class="toc-number">5</div>
+                    <h3 class="toc-item-title">Mental Health & Self-Efficacy</h3>
+                    <p class="toc-item-desc">Building confidence, managing stress, and positive self-image</p>
+                </div>
+
+                <div class="toc-item" onclick="navigateTo('healthy_habits_page6-fix.html')">
+                    <div class="toc-number">6</div>
+                    <h3 class="toc-item-title">Social Support & Peer Influence</h3>
+                    <p class="toc-item-desc">Leveraging relationships and creating supportive environments</p>
+                </div>
+
+                <div class="toc-item" onclick="navigateTo('healthy_habits_page7-fix.html')">
+                    <div class="toc-number">7</div>
+                    <h3 class="toc-item-title">Monitoring & Progress Tracking</h3>
+                    <p class="toc-item-desc">Tools and techniques for tracking health improvements</p>
+                </div>
+
+                <div class="toc-item" onclick="navigateTo('healthy_habits_page8-fix.html')">
+                    <div class="toc-number">8</div>
+                    <h3 class="toc-item-title">Sustaining Healthy Habits</h3>
+                    <p class="toc-item-desc">Long-term strategies for maintaining positive lifestyle changes</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features section -->
+        <section class="features-section fade-in-up">
+            <h2 class="features-title">Module Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">📚</span>
+                    <h3 class="feature-title">Evidence-Based Content</h3>
+                    <p class="feature-desc">All content is based on scientific research and proven behavioral change theories</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">🎯</span>
+                    <h3 class="feature-title">Interactive Learning</h3>
+                    <p class="feature-desc">Engaging activities and exercises to reinforce learning and build skills</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">🧠</span>
+                    <h3 class="feature-title">Social Cognitive Theory</h3>
+                    <p class="feature-desc">Built on proven psychological principles for effective behavior change</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">📱</span>
+                    <h3 class="feature-title">Mobile-Friendly</h3>
+                    <p class="feature-desc">Optimized for all devices - learn anywhere, anytime</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">🎨</span>
+                    <h3 class="feature-title">Beautiful Design</h3>
+                    <p class="feature-desc">Modern, engaging interface that makes learning enjoyable</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">📊</span>
+                    <h3 class="feature-title">Progress Tracking</h3>
+                    <p class="feature-desc">Monitor your learning progress and celebrate achievements</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer fade-in-up">
+            <p class="footer-text">
+                <strong>Healthy Habits Module</strong> - Empowering adolescents for a healthier future
+            </p>
+            <div class="contact-info">
+                <p><strong>For Support & Resources:</strong></p>
+                <p>📧 riswandywasir@upnvj.ac.id | 📞 +31 6-1459-2317</p>
+                <p>Developed by UPN Veteran Jakarta | Based on Social Cognitive Theory</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Navigation function
+        function navigateTo(page) {
+            showLoading();
+            setTimeout(() => {
+                window.location.href = page;
+            }, 500);
+        }
+
+        // Show loading animation
+        function showLoading() {
+            document.getElementById('loading').style.display = 'flex';
+        }
+
+        // Hide loading animation when page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').style.display = 'none';
+            }, 1000);
+        });
+
+        // Add click effects to TOC items
+        document.querySelectorAll('.toc-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Add click animation
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-5px)';
+                }, 150);
+            });
+        });
+
+        // Scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.fade-in-up');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Initialize scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in-up');
+            elements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                element.style.transition = 'all 0.8s ease';
+                element.style.transitionDelay = `${index * 0.2}s`;
+            });
+            
+            // Trigger initial animation
+            setTimeout(animateOnScroll, 100);
+        });
+
+        window.addEventListener('scroll', animateOnScroll);
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.activeElement.classList.contains('toc-item')) {
+                document.activeElement.click();
+            }
+        });
+
+        // Add accessibility features
+        document.querySelectorAll('.toc-item').forEach((item, index) => {
+            item.setAttribute('tabindex', '0');
+            item.setAttribute('role', 'button');
+            item.setAttribute('aria-label', `Navigate to page ${index + 1}`);
+            
+            item.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        });
+
+        // Add progress tracking
+        let pagesVisited = JSON.parse(localStorage.getItem('pagesVisited') || '[]');
+        
+        function markPageAsVisited(page) {
+            if (!pagesVisited.includes(page)) {
+                pagesVisited.push(page);
+                localStorage.setItem('pagesVisited', JSON.stringify(pagesVisited));
+            }
+        }
+
+        // Check if user is returning
+        if (pagesVisited.length > 0) {
+            const welcomeBack = document.createElement('div');
+            welcomeBack.innerHTML = `
+                <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+                    <strong>Welcome back!</strong> You've completed ${pagesVisited.length} out of 9 modules. Keep up the great work! 🎉
+                </div>
+            `;
+            document.querySelector('.overview-section').insertBefore(welcomeBack, document.querySelector('.overview-section').firstChild);
+        }
+    </script>
+</body>
+</html> 
